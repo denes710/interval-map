@@ -1,6 +1,8 @@
 #pragma once
 
 #include <map>
+#include <string>
+#include <stdexcept>
 
 template<typename K, typename V>
 class interval_map {
@@ -9,7 +11,13 @@ class interval_map {
 	V m_valBegin;
 	std::map<K,V> m_map;
 public:
-    // TODO own exception type
+    class CCanonicalException : public std::runtime_error
+    {
+        public:
+            CCanonicalException(const std::string& p_exp)
+                : runtime_error(p_exp)
+            {}
+    };
 
     // constructor associates whole range of K with val
     interval_map(V const& val)
@@ -27,7 +35,7 @@ public:
         if (m_map.empty())
         {
             if (val == m_valBegin)
-                throw;
+                throw CCanonicalException("Value is equal with the default begin value during map initializtion!");
             auto it = m_map.insert(m_map.begin(), {keyBegin, val});
             m_map.insert(it, {keyEnd, m_valBegin});
             return;
