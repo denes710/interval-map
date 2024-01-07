@@ -50,8 +50,9 @@ public:
             {
                 // keyEnd is already in the map
                 if (val == lowerBoundEndIt->second)
-                    throw;
-                itEnd = lowerBoundEndIt;
+                    itEnd = ++lowerBoundEndIt;
+                else
+                    itEnd = lowerBoundEndIt;
             }
             else
             {
@@ -65,8 +66,9 @@ public:
                 {
                     auto it = std::prev(lowerBoundEndIt);
                     if (val == it->second)
-                        throw;
-                    itEnd = m_map.insert(it, {keyEnd, it->second});
+                        itEnd = lowerBoundEndIt;
+                    else
+                        itEnd = m_map.insert(it, {keyEnd, it->second});
                 }
             }
         }
@@ -88,8 +90,11 @@ public:
             {
                 auto it = std::prev(lowerBoundBeginIt);
                 if (val == it->second)
-                    throw;
-                itBegin = m_map.insert_or_assign(it, keyBegin, val);
+                    // keep the node with the same key
+                    itBegin = it;
+                else
+                    // insert node with keyBegin
+                    itBegin = m_map.insert_or_assign(it, keyBegin, val);
             }
         }
         else
