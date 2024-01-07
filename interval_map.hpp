@@ -41,10 +41,10 @@ public:
             return;
         }
 
-        // FIXME it would be better with decltype
         // begin and end of the overwriten interval which will be erased
-        typename std::map<K, V>::iterator itBegin;
-        typename std::map<K, V>::iterator itEnd;
+        using TMapIt = decltype(m_map.begin());
+        TMapIt itBegin;
+        TMapIt itEnd;
 
         // first element that is not less than keyBegin, otherwise end iterator
         auto lowerBoundBeginIt = m_map.lower_bound(keyBegin);
