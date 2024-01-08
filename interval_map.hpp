@@ -141,6 +141,12 @@ class interval_map
             return (--it)->second;
         }
 
+        unsigned count(const K& p_key) const
+        { return m_map.count(p_key); }
+
+        unsigned size() const
+        { return m_map.size(); }
+
     private:
         V m_valBegin;
         std::map<K,V> m_map;
