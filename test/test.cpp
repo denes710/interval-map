@@ -1,7 +1,7 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-#include "../interval_map.hpp"
+#include <interval_map.hpp>
 
 // ---------------------------------------------------------------------------------------------------------------------
 class CTestKeyType

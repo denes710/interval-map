@@ -7,7 +7,7 @@ project(
     VERSION 1.0
     LANGUAGES CXX)
 
-add_library(IntervalMapLib interval_map.hpp)
-set_target_properties(IntervalMapLib PROPERTIES LINKER_LANGUAGE CXX)
+add_library(IntervalMapLib INTERFACE)
+target_include_directories(IntervalMapLib INTERFACE include/)
 
 add_subdirectory(test)
