@@ -67,7 +67,8 @@ class interval_map
                     if (lowerBoundEndIt == m_map.begin())
                     {
                         // p_keyBegin will be the smallest key
-                        itEnd = m_map.insert(lowerBoundEndIt, {p_keyEnd, m_valBegin});
+                        if (!(p_val == m_valBegin))
+                            itEnd = m_map.insert(lowerBoundEndIt, {p_keyEnd, m_valBegin});
                     }
                     else
                     {
@@ -82,7 +83,10 @@ class interval_map
             else
             {
                 // p_keyEnd is the highest
-                itEnd = m_map.insert(lowerBoundEndIt, {p_keyEnd, m_valBegin});
+                if (p_val == m_valBegin)
+                    itEnd = lowerBoundEndIt;
+                else
+                    itEnd = m_map.insert(lowerBoundEndIt, {p_keyEnd, m_valBegin});
             }
 
             // dealing with the begin of the inerval
@@ -91,7 +95,15 @@ class interval_map
                 if (lowerBoundBeginIt == m_map.begin())
                 {
                     // p_keyBegin will be the smallest key
-                    itBegin = m_map.insert_or_assign(lowerBoundBeginIt, p_keyBegin, p_val);
+                    if (!(p_val == m_valBegin))
+                        itBegin = m_map.insert_or_assign(lowerBoundBeginIt, p_keyBegin, p_val);
+                    else
+                    {
+                        // keep map canonical, not insert the default begin value at the begining
+                        m_map.erase(lowerBoundBeginIt, itEnd);
+                        // set flag to avoid erasing later
+                        itBegin = m_map.end();
+                    }
                 }
                 else
                 {
